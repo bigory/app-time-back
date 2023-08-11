@@ -1,0 +1,32 @@
+version: "3.1"
+services:
+  api:
+    image: bigoryb/api-time-dev
+    ports:
+      - "8889:8080"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://db-spring-app:5432/postgres"
+      SPRING_DATASOURCE_USERNAME: "postgres"
+      SPRING_DATASOURCE_PASSWORD: "postgres"
+    depends_on:
+      - db-spring-app
+  db-spring-app:
+    image: postgres:15.3
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - '5435:5432'
+  frontend:
+    image: bigoryb/fronted-app-time-dev
+    ports:
+      - '3333:3333'
+    depends_on:
+      - api
+  adminer:
+    image: adminer
+    ports:
+      - 8989:8080
+
+
